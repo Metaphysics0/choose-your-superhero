@@ -9,6 +9,12 @@ interface ISuperhero {
   image: ISupeheroImage;
 }
 
+interface ISearchByNameResponse {
+  response: string;
+  "results-for": string;
+  results: ISuperhero[];
+}
+
 interface ISupeheroImage {
   url: string;
 }
