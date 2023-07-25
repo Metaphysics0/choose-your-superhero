@@ -11,7 +11,7 @@ export default function Search() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   return (
-    <div className="w-1/2 m-auto relative">
+    <div className="sm:w-1/2 m-auto relative w-3/4">
       <SelectedHeroesHeader />
       <SearchInput
         searchText={searchText}

@@ -10,6 +10,9 @@ import toast, { Toaster } from "react-hot-toast";
 import { MAX_SELECTED_HERO_LIMIT } from "@/constants";
 import { classNames } from "@/services/css";
 import { useEffect, useRef } from "react";
+import { Icon } from "@iconify/react";
+import { Tooltip } from "react-tooltip";
+import { useSelectedHeroModal } from "@/providers/selectedHeroModalProvider";
 
 export default function SearchResults({
   searchResults = [],
@@ -18,6 +21,7 @@ export default function SearchResults({
 }: ISearchResultProps) {
   const ref = useRef(null);
   const [selectedHeroes, setSelectedHeroes] = useSelectedHeroes();
+  const [shouldShowModal, setShouldShowModal] = useSelectedHeroModal();
 
   useEffect(() => {
     function closeDropdown(event: Event) {
@@ -41,7 +45,14 @@ export default function SearchResults({
         ref={ref}
       >
         {searchResults.map((result, key) =>
-          searchResult({ hero: result, key, selectedHeroes, setSelectedHeroes })
+          searchResult({
+            hero: result,
+            key,
+            selectedHeroes,
+            setSelectedHeroes,
+            setShouldShowModal,
+            shouldShowModal,
+          })
         )}
       </div>
       <Toaster />
@@ -52,14 +63,11 @@ export default function SearchResults({
 function searchResult({
   hero,
   key,
+  setShouldShowModal,
+  shouldShowModal,
   selectedHeroes,
   setSelectedHeroes,
-}: {
-  hero: ISuperhero;
-  key: number;
-  selectedHeroes: ISuperhero[] | undefined;
-  setSelectedHeroes: ISetSelectedHeroesAction;
-}) {
+}: ISearchResultItemProps) {
   const isSelected = () => isSuperheroSelected(selectedHeroes, hero);
 
   function addSelectedHero(): void {
@@ -74,9 +82,14 @@ function searchResult({
     setSelectedHeroes?.(removeSelectedHeroFromList(selectedHeroes, hero));
   }
 
-  const addOrRemoveHero = (): void =>
-    isSelected() ? removeSelectedHero() : addSelectedHero();
+  const addOrRemoveHero = isSelected() ? removeSelectedHero : addSelectedHero;
 
+  function showModal(e: any) {
+    e.stopPropagation();
+    setShouldShowModal({ shouldShowModal: true, hero });
+  }
+
+  const tooltipId = `view-full-info-tooltip-${key}`;
   return (
     <div
       key={key}
@@ -93,6 +106,16 @@ function searchResult({
           <p className="italic font-thin">
             {hero?.biography?.["full-name"] || ""}
           </p>
+        </div>
+        <div
+          className="flex ml-3 text-md items-center cursor-pointer hover:text-blue-300"
+          onClick={showModal}
+          data-tooltip-id={tooltipId}
+          data-tooltip-content="View full info"
+          data-tooltip-place="right"
+        >
+          <Icon icon="tabler:external-link" />
+          <Tooltip id={tooltipId} style={{ fontSize: "12px" }} />
         </div>
       </div>
       <SelectButton hero={hero} />
