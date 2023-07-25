@@ -26,6 +26,8 @@ export default function SearchInput({
         const { results } = (await response.json()) as ISearchByNameResponse;
 
         if (results) {
+          console.log("RESULTS", results);
+
           setSearchResults(results);
         }
 
