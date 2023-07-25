@@ -1,23 +1,20 @@
 "use client";
 
-import useSWR from "swr";
 import useDebounce from "@/services/useDebounce";
-import { useEffect, useState } from "react";
-import { fetcher } from "@/services/fetcher";
-import { useSearchResults } from "@/providers/searchResultsProvider";
+import { useEffect } from "react";
 
-export default function SearchInput() {
-  const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useSearchResults();
-  const [isLoading, setIsLoading] = useState(false);
-
+export default function SearchInput({
+  searchText,
+  setSearchText,
+  setSearchResults,
+  isLoading,
+  setIsLoading,
+  setErrorMessage,
+}: ISearchInputProps) {
   const debouncedSearch = useDebounce(searchText, 100);
 
   useEffect(() => {
     if (!searchText) {
-      console.log("CLEARING TEXT");
-
-      // @ts-ignore
       setSearchResults([]);
       return;
     }
@@ -30,13 +27,13 @@ export default function SearchInput() {
         const { results } = (await response.json()) as ISearchByNameResponse;
 
         if (results) {
-          // @ts-ignore
           setSearchResults(results);
         }
 
         setIsLoading(false);
       } catch (error) {
         console.error("Error searching for heroes", error);
+        setErrorMessage("There was a problem 😔");
         setIsLoading(false);
       }
     }
