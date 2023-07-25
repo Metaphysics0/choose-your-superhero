@@ -23,9 +23,11 @@ function searchResult(result: ISuperhero, key: number) {
       className="flex shadow-lg bg-slate-200 border-b min-h-max border-slate-300 p-1 items-center cursor-pointer hover:bg-gray-50 transition"
     >
       <p className="mr-2">{key + 1}.</p>
-      <div>
+      <div className="min-h-[55px] flex flex-col justify-center">
         <strong>{result.name}</strong>
-        <p className="italic font-thin">{result.biography["full-name"]}</p>
+        <p className="italic font-thin">
+          {result?.biography?.["full-name"] || ""}
+        </p>
       </div>
     </div>
   );

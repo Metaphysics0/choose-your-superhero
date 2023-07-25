@@ -3,7 +3,7 @@ interface ISearchInputProps {
   setSearchText: Dispatch<SetStateAction<string>>;
   setErrorMessage: Dispatch<SetStateAction<string>>;
   setSearchResults: Dispatch<SetStateAction<ISuperhero[]>>;
-  isLoading: boolean;
+  isLoading?: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 

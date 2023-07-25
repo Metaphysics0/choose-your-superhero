@@ -7,7 +7,6 @@ export default function SearchInput({
   searchText,
   setSearchText,
   setSearchResults,
-  isLoading,
   setIsLoading,
   setErrorMessage,
 }: ISearchInputProps) {
@@ -39,6 +38,9 @@ export default function SearchInput({
     }
 
     if (debouncedSearch) search();
+
+    // We only care about the debounce here, not every time searchText changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
   return (

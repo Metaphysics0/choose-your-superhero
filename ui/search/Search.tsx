@@ -10,12 +10,11 @@ export default function Search() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   return (
-    <div>
+    <div className="w-1/2 m-auto">
       <SearchInput
         searchText={searchText}
         setSearchText={setSearchText}
         setSearchResults={setSearchResults}
-        isLoading={isLoading}
         setIsLoading={setIsLoading}
         setErrorMessage={setErrorMessage}
       />
