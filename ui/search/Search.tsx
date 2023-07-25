@@ -15,6 +15,7 @@ export default function Search() {
       <SelectedHeroesHeader />
       <SearchInput
         searchText={searchText}
+        searchResults={searchResults}
         setSearchText={setSearchText}
         setSearchResults={setSearchResults}
         setIsLoading={setIsLoading}

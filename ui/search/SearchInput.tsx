@@ -1,10 +1,13 @@
 "use client";
 
 import useDebounce from "@/services/useDebounce";
+import { Icon } from "@iconify/react";
 import { useEffect } from "react";
+import { Tooltip } from "react-tooltip";
 
 export default function SearchInput({
   searchText,
+  searchResults,
   setSearchText,
   setSearchResults,
   setIsLoading,
@@ -45,6 +48,11 @@ export default function SearchInput({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch]);
 
+  function clearResultsAndSearchText(): void {
+    setSearchResults([]);
+    setSearchText("");
+  }
+
   return (
     <form className="flex items-center">
       <label htmlFor="simple-search" className="sr-only">
@@ -63,6 +71,20 @@ export default function SearchInput({
           placeholder="Search superheros..."
           required
         />
+        {searchText || searchResults?.length ? (
+          <div
+            className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer hover:text-red-500"
+            onClick={clearResultsAndSearchText}
+            data-tooltip-id="clear-results-and-search-text-tooltip"
+            data-tooltip-content="Clear search results and text"
+            data-tooltip-place="right"
+          >
+            <Icon icon="ph:x-bold" />
+            <Tooltip id="clear-results-and-search-text-tooltip" />
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </form>
   );
