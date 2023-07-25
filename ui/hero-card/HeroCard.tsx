@@ -63,7 +63,10 @@ export default function HeroCard({
       </div>
       <div className="flex flex-col w-full justify-between items-center max-h-96 overflow-y-scroll">
         {Object.entries(propertiesToDisplay).map(([title, properties], idx) => (
-          <div className="w-full mb-2" key={idx}>
+          <div
+            className="w-full mb-3 pb-2 border-b border-dotted border-slate-200 last:border-none"
+            key={idx}
+          >
             {propertyList(title, properties)}
           </div>
         ))}
@@ -78,12 +81,12 @@ function propertyList(
 ) {
   return (
     <div className="w-full">
-      <strong className="text-center">{title}</strong>
+      <strong className="w-full block text-lg">{title}</strong>
       <ul>
         {Object.entries(properties).map(([key, val]) => (
           <li
             key={key}
-            className="capitalize border-b border-slate-200 p-1 py-2 last:border-none"
+            className="capitalize border-b border-slate-200 py-2 last:border-none"
           >
             {key}: {val ? val : "Not Specified"}
           </li>

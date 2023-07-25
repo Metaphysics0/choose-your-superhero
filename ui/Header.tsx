@@ -3,7 +3,7 @@ export default function Header() {
     <header className="w-fit text-center mx-auto mb-2">
       <h1 className="font-extrabold text-4xl mb-1">🦹🏻‍♂️ Superhero Faceoff 🦸🏻‍♂️</h1>
       <h3 className="text-lg">
-        Select up to 6 superheros to rank against each other!
+        Select up to 6 superheros to rank up against each other!
       </h3>
     </header>
   );

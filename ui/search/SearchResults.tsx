@@ -6,6 +6,8 @@ import {
   isSuperheroSelected,
   removeSelectedHeroFromList,
 } from "@/services/searchResultsHelper";
+import toast, { Toaster } from "react-hot-toast";
+import { MAX_SELECTED_HERO_LIMIT } from "@/constants";
 
 export default function SearchResults({
   searchResults = [],
@@ -23,11 +25,14 @@ export default function SearchResults({
   }
 
   return (
-    <div className="overflow-scroll max-h-72 shadow-md rounded-b-md w-[calc(100%-.7rem)] mx-auto">
-      {searchResults.map((result, key) =>
-        searchResult({ hero: result, key, selectedHeroes, setSelectedHeroes })
-      )}
-    </div>
+    <>
+      <div className="overflow-scroll max-h-72 shadow-md rounded-b-md w-[calc(100%-.7rem)] mx-auto">
+        {searchResults.map((result, key) =>
+          searchResult({ hero: result, key, selectedHeroes, setSelectedHeroes })
+        )}
+      </div>
+      <Toaster />
+    </>
   );
 }
 
@@ -53,6 +58,10 @@ function searchResult({
     .join(" ");
 
   function addSelectedHero(): void {
+    if (selectedHeroes?.length === MAX_SELECTED_HERO_LIMIT) {
+      toast.error("You can't have more than 6 heroes!");
+      return;
+    }
     setSelectedHeroes?.([...(selectedHeroes || []), hero]);
   }
 
