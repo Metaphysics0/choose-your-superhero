@@ -7,9 +7,18 @@ export default function HeroCard({
   hero: ISuperhero;
   id: string | number;
 }) {
+  const propertiesToDisplay = {
+    "Stats 📈": hero.powerstats,
+    "Biography 📝": hero.biography,
+    "Appearance 💅🏻": hero.appearance,
+  };
+
   return (
-    <div key={id} className="rounded-md shadow-md bg-slate-50 p-4 m-3">
-      <div className="flex items-center">
+    <div
+      key={id}
+      className="rounded-md shadow-md bg-slate-50 p-4 m-3 2xl:max-h-64"
+    >
+      <div className="flex items-center mb-3">
         <div className="mr-2 rounded-full overflow-hidden h-20 w-20">
           <Image
             placeholder="blur"
@@ -30,10 +39,12 @@ export default function HeroCard({
           <p>Full Name: {hero?.biography?.["full-name"] || "Not Specified"}</p>
         </div>
       </div>
-      <div className="flex w-full justify-between items-center">
-        <div>{propertyList("Stats", hero.powerstats)}</div>
-        <div>{propertyList("Biography", hero.biography)}</div>
-        <div>{propertyList("Appearance", hero.appearance)}</div>
+      <div className="flex flex-col w-full justify-between items-center max-h-96 overflow-y-scroll">
+        {Object.entries(propertiesToDisplay).map(([title, properties], idx) => (
+          <div className="w-full mb-2" key={idx}>
+            {propertyList(title, properties)}
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -44,19 +55,17 @@ function propertyList(
   properties: Record<string, string> | IPowerstats | IBiography | IAppearance
 ) {
   return (
-    <div>
+    <div className="w-full">
       <strong className="text-center">{title}</strong>
       <ul>
-        {Object.entries(properties).map(([key, val]) => {
-          return (
-            <li
-              key={key}
-              className="capitalize border-b border-slate-200 p-1 py-2 last:border-none"
-            >
-              {key}: {val ? val : "Not Specified"}
-            </li>
-          );
-        })}
+        {Object.entries(properties).map(([key, val]) => (
+          <li
+            key={key}
+            className="capitalize border-b border-slate-200 p-1 py-2 last:border-none"
+          >
+            {key}: {val ? val : "Not Specified"}
+          </li>
+        ))}
       </ul>
     </div>
   );
