@@ -2,6 +2,7 @@
 import { useState } from "react";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
+import SelectedHeroesHeader from "../SelectedHeroesHeader";
 
 export default function Search() {
   const [searchText, setSearchText] = useState<string>("");
@@ -10,17 +11,20 @@ export default function Search() {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   return (
-    <div className="w-1/2 m-auto">
+    <div className="sm:w-1/2 m-auto relative w-3/4">
+      <SelectedHeroesHeader />
       <SearchInput
         searchText={searchText}
+        isLoading={isLoading}
+        searchResults={searchResults}
         setSearchText={setSearchText}
         setSearchResults={setSearchResults}
         setIsLoading={setIsLoading}
         setErrorMessage={setErrorMessage}
       />
       <SearchResults
+        setSearchResults={setSearchResults}
         searchResults={searchResults}
-        isLoading={isLoading}
         errorMessage={errorMessage}
       />
     </div>

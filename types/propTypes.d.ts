@@ -1,14 +1,19 @@
 interface ISearchInputProps {
   searchText: string;
-  setSearchText: Dispatch<SetStateAction<string>>;
-  setErrorMessage: Dispatch<SetStateAction<string>>;
-  setSearchResults: Dispatch<SetStateAction<ISuperhero[]>>;
+  setSearchText: ISetString;
+  setErrorMessage: ISetString;
+  setSearchResults: ISetSelectedHeroesAction;
+  searchResults: ISuperhero[];
   isLoading?: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: ISetBoolean;
 }
 
 interface ISearchResultProps {
   searchResults: ISuperhero[];
-  isLoading: boolean;
+  setSearchResults: ISetSelectedHeroesAction;
   errorMessage?: string;
 }
+
+type ISetString = Dispatch<SetStateAction<string>>;
+type ISetBoolean = Dispatch<SetStateAction<boolean>>;
+type ISetSelectedHeroesAction = Dispatch<SetStateAction<ISuperhero[]>>;
