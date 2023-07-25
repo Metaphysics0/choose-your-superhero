@@ -20,7 +20,7 @@ export default function SearchResults({
   }
 
   return (
-    <div className="overflow-scroll max-h-72 shadow-md">
+    <div className="overflow-scroll max-h-72 shadow-md rounded-b-md w-[calc(100%-.7rem)] mx-auto">
       {searchResults.map((result, key) =>
         searchResult({ hero: result, key, selectedHeroes, setSelectedHeroes })
       )}

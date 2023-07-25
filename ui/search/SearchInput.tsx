@@ -5,6 +5,8 @@ import { Icon } from "@iconify/react";
 import { useEffect } from "react";
 import { Tooltip } from "react-tooltip";
 
+const debounceTimeInMs = 500;
+
 export default function SearchInput({
   searchText,
   searchResults,
@@ -13,7 +15,7 @@ export default function SearchInput({
   setIsLoading,
   setErrorMessage,
 }: ISearchInputProps) {
-  const debouncedSearch = useDebounce(searchText, 100);
+  const debouncedSearch = useDebounce(searchText, debounceTimeInMs);
 
   useEffect(() => {
     if (!searchText) {
@@ -29,8 +31,6 @@ export default function SearchInput({
         const { results } = (await response.json()) as ISearchByNameResponse;
 
         if (results) {
-          console.log("RESULTS", results);
-
           setSearchResults(results);
         }
 
@@ -59,7 +59,7 @@ export default function SearchInput({
         Search
       </label>
       <div className="relative w-full">
-        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div className="absolute inset-y-0 text-lg left-0 flex items-center pl-3 pointer-events-none">
           🦸
         </div>
         <input
@@ -68,7 +68,7 @@ export default function SearchInput({
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search superheros..."
+          placeholder="Poison Ivy..."
           required
         />
         {searchText || searchResults?.length ? (
