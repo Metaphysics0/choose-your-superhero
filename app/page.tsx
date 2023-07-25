@@ -1,5 +1,6 @@
 import Header from "@/ui/Header";
 import SelectedHeroesList from "@/ui/SelectedHeroesList";
+import SelectedHeroModal from "@/ui/modals/SelectedHeroModal";
 import Search from "@/ui/search/Search";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <Header />
       <Search />
       <SelectedHeroesList />
+      <SelectedHeroModal />
     </main>
   );
 }

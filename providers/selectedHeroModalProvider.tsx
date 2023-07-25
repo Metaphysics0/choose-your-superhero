@@ -3,8 +3,12 @@
 import React, { useEffect } from "react";
 
 const SelectedHeroModal = React.createContext<
-  [boolean, React.Dispatch<React.SetStateAction<boolean>>] | []
->([]);
+  | [
+      IShouldShowSelectedHeroModal,
+      React.Dispatch<React.SetStateAction<IShouldShowSelectedHeroModal>>
+    ]
+  | undefined
+>(undefined);
 
 export function SelectedHeroModalProvider({
   children,
@@ -12,7 +16,8 @@ export function SelectedHeroModalProvider({
   children: React.ReactNode;
 }) {
   const [selectedHeroModal, toggleSelectedHeroModal] =
-    React.useState<boolean>(false);
+    React.useState<IShouldShowSelectedHeroModal>({ shouldShowModal: false });
+
   return (
     <SelectedHeroModal.Provider
       value={[selectedHeroModal, toggleSelectedHeroModal]}
@@ -30,9 +35,11 @@ export function useSelectedHeroModal() {
     );
   }
   const [selectedHeroModal, toggleSelectedHeroModal] = context;
+
   useEffect(() => {
     const closeModalOnEscape = (e: KeyboardEvent | any): void => {
-      if (e.key === "Escape") toggleSelectedHeroModal?.(false);
+      if (e.key === "Escape")
+        toggleSelectedHeroModal?.({ shouldShowModal: false });
     };
     document.addEventListener("keydown", closeModalOnEscape);
     return () => {
