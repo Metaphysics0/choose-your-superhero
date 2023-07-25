@@ -2,6 +2,7 @@
 import { useState } from "react";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
+import SelectedHeroesHeader from "../SelectedHeroesHeader";
 
 export default function Search() {
   const [searchText, setSearchText] = useState<string>("");
@@ -11,6 +12,7 @@ export default function Search() {
 
   return (
     <div className="w-1/2 m-auto">
+      <SelectedHeroesHeader />
       <SearchInput
         searchText={searchText}
         setSearchText={setSearchText}
