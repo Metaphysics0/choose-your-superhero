@@ -2,7 +2,10 @@
 
 import { useSelectedHeroes } from "@/providers/selectedHeroesProvider";
 import SelectButton from "./SelectButton";
-import { isSuperheroSelected } from "@/services/searchResultsHelper";
+import {
+  isSuperheroSelected,
+  removeSelectedHeroFromList,
+} from "@/services/searchResultsHelper";
 
 export default function SearchResults({
   searchResults = [],
@@ -54,10 +57,7 @@ function searchResult({
   }
 
   function removeSelectedHero(): void {
-    const heroesToSet = selectedHeroes?.filter(
-      (selectedHero) => selectedHero.id !== hero.id
-    );
-    setSelectedHeroes?.(heroesToSet || []);
+    setSelectedHeroes?.(removeSelectedHeroFromList(selectedHeroes, hero));
   }
 
   const addOrRemoveHero = (): void =>

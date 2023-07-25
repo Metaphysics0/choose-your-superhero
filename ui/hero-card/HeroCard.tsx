@@ -1,4 +1,10 @@
+"use client";
+
+import { useSelectedHeroes } from "@/providers/selectedHeroesProvider";
+import { removeSelectedHeroFromList } from "@/services/searchResultsHelper";
+import { Icon } from "@iconify/react";
 import Image from "next/image";
+import { Tooltip } from "react-tooltip";
 
 export default function HeroCard({
   hero,
@@ -7,17 +13,33 @@ export default function HeroCard({
   hero: ISuperhero;
   id: string | number;
 }) {
+  const [selectedHeroes, setSelectedHeroes] = useSelectedHeroes();
+
   const propertiesToDisplay = {
     "Stats 📈": hero.powerstats,
     "Biography 📝": hero.biography,
     "Appearance 💅🏻": hero.appearance,
   };
 
+  function removeSelectedHero(): void {
+    setSelectedHeroes?.(removeSelectedHeroFromList(selectedHeroes, hero));
+  }
+
   return (
     <div
       key={id}
-      className="rounded-md shadow-md bg-slate-50 p-4 m-3 2xl:max-h-64"
+      className="rounded-md shadow-md bg-slate-50 p-4 m-3 2xl:max-h-64 relative"
     >
+      <div
+        className="absolute top-3 right-0 flex items-center pr-3 cursor-pointer hover:text-red-500"
+        onClick={removeSelectedHero}
+        data-tooltip-id="remove-selected-hero-tooltip"
+        data-tooltip-content="Remove hero"
+        data-tooltip-place="right"
+      >
+        <Icon icon="ph:x-bold" />
+        <Tooltip id="remove-selected-hero-tooltip" />
+      </div>
       <div className="flex items-center mb-3">
         <div className="mr-2 rounded-full overflow-hidden h-20 w-20">
           <Image
