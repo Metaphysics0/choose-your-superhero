@@ -59,6 +59,7 @@ export default function HeroCard({
         <div className="flex flex-col">
           <strong>{hero.name}</strong>
           <p>Full Name: {hero?.biography?.["full-name"] || "Not Specified"}</p>
+          <button className="w-fit border">Full Info</button>
         </div>
       </div>
       <div className="flex flex-col w-full justify-between items-center max-h-96 overflow-y-scroll">

@@ -21,10 +21,26 @@ export function SearchResultsProvider({
 
 export function useSearchResults() {
   const context = React.useContext(SearchResults);
+
   if (context === undefined) {
     throw new Error(
       "useSearchResults must be used within a SearchResultsProvider!"
     );
   }
+
+  const [searchResults, setSearchResults] = context;
+
+  React.useEffect(() => {
+    const removeSearchResultsOnEsc = (e: KeyboardEvent | any): void => {
+      if (e.key === "Escape") {
+        console.log("ESCAPE WAS PRESSED");
+        setSearchResults?.([]);
+      }
+    };
+    window.addEventListener("keydown", removeSearchResultsOnEsc);
+    return () => {
+      window.removeEventListener("keydown", removeSearchResultsOnEsc);
+    };
+  }, [setSearchResults]);
   return context;
 }

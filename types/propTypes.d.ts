@@ -10,7 +10,7 @@ interface ISearchInputProps {
 
 interface ISearchResultProps {
   searchResults: ISuperhero[];
-  isLoading: boolean;
+  setSearchResults: ISetSelectedHeroesAction;
   errorMessage?: string;
 }
 

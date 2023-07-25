@@ -4,6 +4,7 @@ import useDebounce from "@/services/useDebounce";
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
 import { Tooltip } from "react-tooltip";
+import LoaderSpinner from "../utilities/LoaderSpinner";
 
 const debounceTimeInMs = 500;
 
@@ -14,12 +15,14 @@ export default function SearchInput({
   setSearchResults,
   setIsLoading,
   setErrorMessage,
+  isLoading,
 }: ISearchInputProps) {
   const debouncedSearch = useDebounce(searchText, debounceTimeInMs);
 
   useEffect(() => {
     if (!searchText) {
       setSearchResults([]);
+      setErrorMessage("");
       return;
     }
 
@@ -30,8 +33,11 @@ export default function SearchInput({
         const response = await fetch(`/api/search?text=${searchText}`);
         const { results } = (await response.json()) as ISearchByNameResponse;
 
-        if (results) {
+        if (results?.length > 0) {
           setSearchResults(results);
+          setErrorMessage("");
+        } else {
+          setErrorMessage("No heroes found for " + searchText + " 😔");
         }
 
         setIsLoading(false);
@@ -71,7 +77,14 @@ export default function SearchInput({
           placeholder="Poison Ivy..."
           required
         />
-        {searchText || searchResults?.length ? (
+        {isLoading ? (
+          <div className="absolute inset-y-0 right-0 flex items-center">
+            <LoaderSpinner />
+          </div>
+        ) : (
+          ""
+        )}
+        {!isLoading && (searchText || searchResults?.length) ? (
           <div
             className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer hover:text-red-500"
             onClick={clearResultsAndSearchText}
