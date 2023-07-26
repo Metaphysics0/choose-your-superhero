@@ -13,7 +13,12 @@ NPM Packages:
 
 To run locally:
 
+add the following file to the root: `.env.local`, with the variable
+`NEXT_PUBLIC_SUPERHERO_API_KEY=<your-env-key>`
+
 ```bash
+nvm use (or fnm, etc)
+npm i
 npm run dev
 ```
 
