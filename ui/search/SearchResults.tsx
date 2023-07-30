@@ -17,7 +17,6 @@ import { useSelectedHeroModal } from "@/providers/selectedHeroModalProvider";
 export default function SearchResults({
   searchResults = [],
   setSearchResults,
-  errorMessage,
 }: ISearchResultProps) {
   const ref = useRef(null);
   const [selectedHeroes, setSelectedHeroes] = useSelectedHeroes();
@@ -35,9 +34,6 @@ export default function SearchResults({
     return () => window.removeEventListener("click", closeDropdown);
   }, [ref, setSearchResults]);
 
-  if (errorMessage) {
-    return <p>{errorMessage}</p>;
-  }
   return (
     <>
       <div
@@ -95,6 +91,7 @@ function searchResult({
       key={key}
       className={classNames(
         "flex justify-between shadow-lg bg-slate-200 border-b min-h-max border-slate-300 p-1 items-center cursor-pointer hover:bg-gray-50 transition",
+        "subpixel-antialiased",
         isSelected() && "bg-slate-100!"
       )}
       onClick={addOrRemoveHero}

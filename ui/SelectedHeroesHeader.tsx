@@ -13,7 +13,7 @@ export default function SelectedHeroesHeader() {
   }
 
   return (
-    <div className="flex w-fit mx-auto items-center min-h-[25px] mb-1 text-center font-light">
+    <div className="flex w-fit mx-auto items-center min-h-[25px] mb-1 text-center font-light text-slate-800">
       {selectedHeroes?.length || 0} out of {MAX_SELECTED_HERO_LIMIT} heroes
       selected!
       {selectedHeroes?.length ? (

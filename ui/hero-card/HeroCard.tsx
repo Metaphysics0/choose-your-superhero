@@ -41,7 +41,7 @@ export default function HeroCard({
     <div
       key={id}
       className={classNames(
-        "rounded-md 2xl:max-h-64 relative",
+        "rounded-md 2xl:max-h-fit relative",
         !isModalView && "bg-slate-50 p-4 m-3 shadow-md"
       )}
     >

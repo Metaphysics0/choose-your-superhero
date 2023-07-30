@@ -2,11 +2,13 @@
 
 import useDebounce from "@/services/useDebounce";
 import { Icon } from "@iconify/react";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { Tooltip } from "react-tooltip";
 import LoaderSpinner from "../utilities/LoaderSpinner";
+import toast from "react-hot-toast";
 
 const debounceTimeInMs = 500;
+const minimumCharactersNeededForSearch = 3;
 
 export default function SearchInput({
   searchText,
@@ -14,7 +16,6 @@ export default function SearchInput({
   setSearchText,
   setSearchResults,
   setIsLoading,
-  setErrorMessage,
   isLoading,
 }: ISearchInputProps) {
   const debouncedSearch = useDebounce(searchText, debounceTimeInMs);
@@ -22,28 +23,33 @@ export default function SearchInput({
   useEffect(() => {
     if (!searchText) {
       setSearchResults([]);
-      setErrorMessage("");
       return;
     }
-
-    setIsLoading(true);
+    if (searchText.length >= minimumCharactersNeededForSearch) {
+      setIsLoading(true);
+    }
 
     async function search() {
+      if (searchText.length < minimumCharactersNeededForSearch) {
+        console.log(
+          `need at least ${minimumCharactersNeededForSearch} characters to preform the search.`
+        );
+        return;
+      }
       try {
         const response = await fetch(`/api/search?text=${searchText}`);
         const { results } = (await response.json()) as ISearchByNameResponse;
 
         if (results?.length > 0) {
           setSearchResults(results);
-          setErrorMessage("");
         } else {
-          setErrorMessage("No heroes found for " + searchText + " 😔");
+          toast.error("No heroes found for " + searchText + " 😔");
         }
 
         setIsLoading(false);
       } catch (error) {
         console.error("Error searching for heroes", error);
-        setErrorMessage("There was a problem 😔");
+        toast.error("Something went wrong 😔");
         setIsLoading(false);
       }
     }
@@ -59,6 +65,22 @@ export default function SearchInput({
     setSearchText("");
   }
 
+  function setSearchTextAndCheckValidity(
+    e: ChangeEvent<HTMLInputElement>
+  ): void {
+    const input = e.target;
+    setSearchText(input.value);
+    if (input.value.length < 3 && input.value.length !== 0) {
+      input.setCustomValidity(
+        "3 characters minimum in order to preform search!"
+      );
+    } else {
+      input.setCustomValidity("");
+    }
+
+    input.reportValidity();
+  }
+
   return (
     <form className="flex items-center">
       <label htmlFor="simple-search" className="sr-only">
@@ -71,8 +93,9 @@ export default function SearchInput({
         <input
           type="text"
           id="simple-search"
+          minLength={minimumCharactersNeededForSearch}
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={setSearchTextAndCheckValidity}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Poison Ivy..."
           required

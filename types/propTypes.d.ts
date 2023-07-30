@@ -1,7 +1,6 @@
 interface ISearchInputProps {
   searchText: string;
   setSearchText: ISetString;
-  setErrorMessage: ISetString;
   setSearchResults: ISetSelectedHeroesAction;
   searchResults: ISuperhero[];
   isLoading?: boolean;
